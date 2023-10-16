@@ -1,7 +1,7 @@
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        boolean run = true, runGM = true, game = true;
+        boolean run = true, runGM, game = true;
         int option, optionGM;
         char player1 = 'X', player2 = 'O';
 
@@ -9,6 +9,7 @@ public class Main {
         while(run){
             Func.menu();
             option = Func.scanInt();
+            runGM = true;
             switch(option) {
                 case 1:
                     Func.gamemode();
@@ -16,7 +17,8 @@ public class Main {
                     while(runGM) {
                         switch (optionGM) {
                             case 1:
-
+                                Game.solo(game, player1, player2);
+                                runGM = false;
                                 break;
                             case 2:
                                 Game.duo(game, player1, player2);

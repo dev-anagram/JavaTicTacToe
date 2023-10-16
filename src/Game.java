@@ -1,3 +1,7 @@
+import java.util.Arrays;
+import java.util.Random;
+
+
 public class Game {
     static public Object[] cleanBoard() {
         Object[] board = new Object[9];
@@ -36,6 +40,27 @@ public class Game {
             System.out.println("Incorrect pick!");
             playerPick(board, player);
         }
+    }
+
+    static public void computerPick(Object[] board, char player){
+        System.out.println("Computer "+player+" is thinking...");
+        boolean[] possiblePicks = new boolean[9];
+        Arrays.fill(possiblePicks, true);
+        for (int i = 0; i < board.length; i++) {
+            if(board[i] instanceof Character){
+                possiblePicks[i] = false;
+            }
+        }
+        Random rand = new Random();
+        int selectedId = -1;
+        while (selectedId == -1) {
+            int randomId = rand.nextInt(possiblePicks.length);
+            if (possiblePicks[randomId]) {
+                selectedId = randomId;
+            }
+        }
+
+        board[selectedId] = player;
     }
 
     static public boolean checkIfDraw(Object[] board) {
@@ -135,6 +160,40 @@ public class Game {
             }
 
             Game.playerPick(board, player2);
+            winner = Game.checkWinCondition(board, player2, player1);
+            if (winner == 2) {
+                Func.win(board, player2);
+                break;
+            }
+
+            game = Game.checkIfDraw(board);
+            if (!game) {
+                Func.draw(board);
+                break;
+            }
+        }
+    }
+
+    static public void solo(boolean game, char player1, char player2){
+        int winner;
+        Object[] board;
+        board = Game.cleanBoard();
+        while (game) {
+            Game.playerPick(board, player1);
+            winner = Game.checkWinCondition(board, player1, player1);
+            if (winner == 1) {
+                Func.win(board, player1);
+                break;
+            }
+
+            game = Game.checkIfDraw(board);
+            if (!game) {
+                Func.draw(board);
+                break;
+            }
+
+
+            Game.computerPick(board, player2);
             winner = Game.checkWinCondition(board, player2, player1);
             if (winner == 2) {
                 Func.win(board, player2);
