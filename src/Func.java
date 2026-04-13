@@ -58,12 +58,20 @@ public class Func {
         System.out.println("=============================");
     }
 
+    static private Scanner scanner = new Scanner(System.in);
+
     static public int scanInt() {
-        int x;
-        Scanner scanner = new Scanner(System.in);
-        System.out.print(">> ");
-        x = scanner.nextInt();
+        try {
+            System.out.print(">> ");
+            return scanner.nextInt();
+        } catch (Exception e) {
+            scanner.nextLine();
+            System.out.println(" Invalid input!");
+            return scanInt();
+        }
+    }
+
+    static public void closeScanner() {
         scanner.close();
-        return x;
     }
 }
